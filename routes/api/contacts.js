@@ -12,10 +12,11 @@ const {
 } = require("../../controllers/contacts");
 
 const {
-  validateAddBody,
+  validateBody,
   validateUpdateBody,
   validateUpdateFavoriteBody,
   isValidId,
+  authentificate,
 } = require("../../middlewares");
 
 const {
@@ -24,18 +25,25 @@ const {
   updateFavoriteSchema,
 } = require("../../models/contact");
 
-router.get("/", getAll);
+router.get("/", authentificate, getAll);
 
-router.get("/:id", isValidId, getContactById);
+router.get("/:id", authentificate, isValidId, getContactById);
 
-router.post("/", validateAddBody(addSchema), add);
+router.post("/", authentificate, validateBody(addSchema), add);
 
-router.delete("/:id", isValidId, deleteById);
+router.delete("/:id", authentificate, isValidId, deleteById);
 
-router.put("/:id", isValidId, validateUpdateBody(updateSchema), updateById);
+router.put(
+  "/:id",
+  authentificate,
+  isValidId,
+  validateUpdateBody(updateSchema),
+  updateById
+);
 
 router.patch(
   "/:id/favorite",
+  authentificate,
   isValidId,
   validateUpdateFavoriteBody(updateFavoriteSchema),
   updateFavorite

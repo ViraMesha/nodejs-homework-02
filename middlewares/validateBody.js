@@ -1,11 +1,10 @@
 const { HttpError } = require("../helpers");
-const validateAddBody = (schema) => {
+const validateBody = (schema) => {
   const func = (req, res, next) => {
     const { error } = schema.validate(req.body);
+    console.log(error);
     if (error) {
-      next(
-        HttpError(400, `missing required ${error.details[0].context.key} field`)
-      );
+      next(HttpError(400, `${error.details[0].message}`));
     }
     next();
   };
@@ -35,7 +34,7 @@ const validateUpdateFavoriteBody = (schema) => {
 };
 
 module.exports = {
-  validateAddBody,
+  validateBody,
   validateUpdateBody,
   validateUpdateFavoriteBody,
 };
