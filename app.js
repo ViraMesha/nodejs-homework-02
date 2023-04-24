@@ -16,7 +16,7 @@ app.use(cors());
 // body parser middleware
 app.use(express.json()); // перевіряє, чи є в запиті тіло і який у нього тип по заголовку content-type. Якщо заголовок application/json, то ця middleware бере строку, яку передають, і за допоиогою JSON.parse перетворює її на об'єкт.
 
-app.use("/api/users", authRouter);
+app.use("/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use((req, res) => {
