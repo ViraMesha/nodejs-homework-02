@@ -3,7 +3,7 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
-const ContactSchema = new Schema(
+const contactSchema = new Schema(
   {
     name: {
       type: String,
@@ -19,13 +19,19 @@ const ContactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { versionKey: false }
 );
 
-ContactSchema.post("save", handleMongooseError);
+// Middleware to handle a Mongoose error, because Mongoose methods may throw errors without status
+contactSchema.post("save", handleMongooseError);
 
-const Contact = model("contact", ContactSchema);
+const Contact = model("contact", contactSchema);
 
 const addSchema = Joi.object({
   name: Joi.string().required(),
