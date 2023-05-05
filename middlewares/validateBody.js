@@ -1,10 +1,23 @@
 const { HttpError } = require("../helpers");
+
 const validateBody = (schema) => {
   const func = (req, res, next) => {
     const { error } = schema.validate(req.body);
     console.log(error);
     if (error) {
       next(HttpError(400, `${error.details[0].message}`));
+    }
+    next();
+  };
+  return func;
+};
+
+const validateEmail = (schema) => {
+  const func = (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    console.log(error);
+    if (error) {
+      next(HttpError(400, "missing required field email"));
     }
     next();
   };
@@ -35,6 +48,7 @@ const validateUpdateFavoriteBody = (schema) => {
 
 module.exports = {
   validateBody,
+  validateEmail,
   validateUpdateBody,
   validateUpdateFavoriteBody,
 };
